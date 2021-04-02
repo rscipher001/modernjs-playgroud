@@ -1,0 +1,188 @@
+extends /layout.pug
+block content
+  h3 Promise
+  p For starting point promise can be considerd as alternate syntax for callback function 
+  pre(contenteditable="true"): code.javascript.
+    const fs = require('fs')
+    fs.readFile('package.json')
+      .then(function(result) {
+        console.log(result)
+      })
+  include /components/run.pug
+
+  hr
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+    readFile('package.json', 'utf-8')
+      .then(function(result) {
+        console.log(result)
+      })
+    console.log('After promise')
+  include /components/run.pug
+
+  h3.mt-5 Handling error
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+    readFile('package2.json', 'utf-8')
+      .then(function(result) {
+        console.log(result)
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+  include /components/run.pug
+
+  h3.mt-5 Run something in failure and success both cases
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+    readFile('package2.json', 'utf-8')
+      .then(function(result) {
+        console.log(result)
+      })
+      .catch(function(error) {
+        console.error(error) // Either console.error is slow than console.log or errors are printed in the last
+      })
+      .finally(function() {
+        console.log('Finally');
+      })
+      console.log('After promise');  
+  include /components/run.pug
+
+  h3.mt-5 Replace callback hell
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+
+    readFile('index.js', 'utf-8')
+      .then(function(result) {
+        console.log(result)
+        return readFile('package.json', 'utf-8')
+      })
+      .then(function(result) {
+        console.log(result)
+        return readFile('.gitignore', 'utf-8')
+        // throw new Error('Oh no!')
+      })
+      .then(function(result) {
+        console.log(result)
+        return 2
+        // throw new Error('Oh no!')
+      })
+      .then(function(result) {
+        console.log(result)
+      })
+      .catch(function(error) {
+        console.error(error) // Either console.error is slow than console.log or errors are printed in the last
+      })
+      .finally(function() {
+        console.log('Finally');
+      })
+      console.log('After promise');  
+  include /components/run.pug
+
+  h3.mt-5 Async/Await and advance use cases
+  p <code>async/await</code> is syntactic suger with some extra benefits, we can replace then/catch syntax with regular try catch
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+
+    function readPackagejson() {
+      readFile('package.json', 'utf-8')
+        .then(function(result) {
+          console.log(result)
+        })
+    }
+    readPackagejson()
+  include /components/run.pug
+
+  hr
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+
+    async function readPackagejson() { // pay attention to async keyword
+      const result = await readFile('package.json', 'utf-8') // pay attention to await keyword
+      console.log(result)
+    }
+    readPackagejson()
+  include /components/run.pug
+
+  h3.mt-5 Error hanlding with Async/Await
+  p <code>async/await</code> allows us to use plain old try catch for error handling
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+
+    async function readPackagejson() {
+      try {
+        const result = await readFile('package2.json', 'utf-8')
+        console.log(result)
+      } catch(e) {
+        console.error(e)
+      }
+    }
+    readPackagejson()
+  include /components/run.pug
+
+  h3.mt-5 Callback hell?
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+
+    async function readPackagejson() {
+      try {
+        const packageJson = await readFile('package.json', 'utf-8')
+        console.log('Read packageJson')
+        const indexJs = await readFile('index.js', 'utf-8')
+        console.log('Read indexjs')
+        const gitignore = await readFile('.gitignore', 'utf-8')
+        console.log('Read gitignore')
+
+        console.log(packageJson)
+        console.log(indexJs)
+        console.log(gitignore)
+      } catch(e) {
+        console.error(e)
+      }
+    }
+    readPackagejson()
+  include /components/run.pug
+
+  h3.mt-5 Running await operation in parallel using Promise.all method*
+  pre(contenteditable="true"): code.javascript.
+    const util = require('util')
+    const fs = require('fs')
+    const readFile = util.promisify(fs.readFile)
+
+    async function readPackagejson() {
+      try {
+        const files = await Promise.all([ // It can be used without await keyword
+          readFile('package.json', 'utf-8'),
+          readFile('index.js', 'utf-8'),
+          readFile('.gitignore', 'utf-8')
+        ])
+
+        const packageJson = files[0]
+        const indexJs = files[1]
+        const gitignore = files[2]
+
+        console.log(packageJson)
+        console.log(indexJs)
+        console.log(gitignore)
+      } catch(e) {
+        console.error(e)
+      }
+    }
+    readPackagejson()
+  include /components/run.pug

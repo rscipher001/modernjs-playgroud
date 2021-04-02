@@ -1,0 +1,42 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark: .container-fluid
+	a.navbar-brand(href='/') Playground
+	button.navbar-toggler(
+		type='button'
+		data-bs-toggle='collapse'
+		data-bs-target='#navbarSupportedContent'
+		aria-controls='navbarSupportedContent'
+		aria-expanded='false'
+		aria-label='Toggle navigation'
+	): span.navbar-toggler-icon
+	.collapse.navbar-collapse#navbarSupportedContent
+		ul.navbar-nav.me-auto.mb-2.mb-lg-0
+			li.nav-item.dropdown
+				a.nav-link.dropdown-toggle#navbarDropdown(
+					href='#'
+					role='button'
+					data-bs-toggle='dropdown'
+					aria-expanded='false'
+				) Variables
+				ul.dropdown-menu(aria-labelledby='navbarDropdown')
+					li: a.dropdown-item(href='/variables/types') Types
+					li: a.dropdown-item(href='/variables/assignment') Assignment
+					li: a.dropdown-item(href='/variables/destructuring') Destructuring
+					li: a.dropdown-item(href='/variables/copy') Shallow &amp; Deep Copy
+
+			li.nav-item.dropdown
+				a.nav-link.dropdown-toggle#navbarDropdown(
+					href='#'
+					role='button'
+					data-bs-toggle='dropdown'
+					aria-expanded='false'
+				) Functions
+				ul.dropdown-menu(aria-labelledby='navbarDropdown')
+					li: a.dropdown-item(href='/functions/basics') Basics
+					li: a.dropdown-item(href='/functions/arrow') Arrow Function
+
+			li.nav-item: a.nav-link.active(aria-current='page' href='/promises') Promise
+			li.nav-item: a.nav-link.active(aria-current='page' href='/strict') Strict Mode
+			li.nav-item: a.nav-link.active(aria-current='page' href='/this') This keyword
+			li.nav-item: a.nav-link.active(aria-current='page' href='/oop') OOP
+			li.nav-item: a.nav-link.active(aria-current='page' href='/array') Array
+			li.nav-item: a.nav-link.active(aria-current='page' href='/object') Object

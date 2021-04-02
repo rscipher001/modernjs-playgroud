@@ -1,0 +1,34 @@
+extends /layout.pug
+block content
+  h3.mt-2 Object assignment uses reference not value
+  p In simple terms assignment is basically aliasing
+  pre(contenteditable="true"): code.javascript.
+    const person1 = {
+      name: 'John Doe',
+      age: 23,
+    };
+    console.log(person1);
+    const person2 = person1;
+    person2.age = 25;
+    console.log(person1);
+    console.log(person2);
+    console.log(person1 === person2);
+  include /components/run.pug
+  
+  h3.mt-5 Premitive data type assignment
+  pre(contenteditable="true"): code.javascript.
+    let num1 = 25;
+    let num2 = num1;
+    console.log('Are both same:', num1 === num2);
+    num2 = 32;
+    console.log(num1 === num2);
+  include /components/run.pug  
+  
+  h3.mt-5 Function call can be combined with assignment
+  pre(contenteditable="true"): code.javascript.
+    function getNum() {
+      return 25;
+    }
+    const num = getNum();
+    console.log(num);
+  include /components/run.pug

@@ -1,0 +1,64 @@
+extends /layout.pug
+block content
+  h3.mt-5 Arrow function syntax 1
+  p Provides syntactic sugar and scope is different than traditional functions 
+  pre(contenteditable="true"): code.javascript.
+    const hello = () => {
+      console.log('Hello world');
+    }
+    // const hello = function() {
+    //   console.log('Hello world');
+    // }
+    hello();
+  include /components/run.pug
+
+  h3.mt-5 Arrow function syntax 2
+  p Curly brackets and semicolon can be skipped to direcly return something  
+  pre(contenteditable="true"): code.javascript.
+    const getNum = () => {
+      return 25;
+    }
+    const num = getNum();
+    console.log(num);
+  include /components/run.pug
+
+  hr
+  pre(contenteditable="true"): code.javascript.
+    const getNum = () => 25;
+    const num = getNum();
+    console.log(num);
+  include /components/run.pug
+
+  hr
+  pre(contenteditable="true"): code.javascript.
+    const square = (number) => number * number;
+    const value = square(5);
+    console.log(value);
+  include /components/run.pug
+
+  h3.mt-5 Arrow function syntax 3
+  p Parenthesis can be skipped if argument count is one  
+  pre(contenteditable="true"): code.javascript.
+    const square = number => number * number;
+    // const square = function(number) {
+    //   return number * number;
+    // }
+    const value = square(5);
+    console.log(value);
+  include /components/run.pug
+
+  h3.mt-5 Arrow function syntax 4
+  p Since curly bracket means function definition return object has a different syntax  
+  pre(contenteditable="true"): code.javascript.
+    const square = number => { square: number * number };
+    // { square: 25 } // Expected return value
+    const value = square(5);
+    console.log(value);
+  include /components/run.pug
+
+  hr
+  pre(contenteditable="true"): code.javascript.
+    const square = number => ({ square: number * number });
+    const value = square(5);
+    console.log(value);
+  include /components/run.pug

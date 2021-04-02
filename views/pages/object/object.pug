@@ -1,0 +1,209 @@
+extends /layout.pug
+block content
+  h3.mt-2 Object methods
+  p JS Object global variable provides many usefull methods
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+        name: 'John',
+        age: 23,
+    };
+
+    //- Get all keys as an arary
+    console.log(Object.keys(john));
+    console.log(Object.keys(john).includes('age'));
+  include /components/run.pug
+
+  p.mt-5 Works with extended objects too
+  pre(contenteditable="true"): code.javascript.
+    class Human {
+        constructor() {
+            this.type = 'Human';
+        }
+    }
+
+    class Person extends Human {
+        constructor(name, age) {
+            super();
+            this.name = name;
+            this.age = age;
+        }
+    }
+
+    const john = new Person('John', 23);
+
+    //- Get all keys as an arary
+    console.log(Object.keys(john));
+    console.log(Object.keys(john).includes('age'));
+  include /components/run.pug
+
+  p.mt-5 Add properties to object but differently
+  pre(contenteditable="true"): code.javascript.
+    const john = {};
+    Object.defineProperties(john, {
+      name: {
+        value: 'John Doe',
+        configurable: false, // False if it can't be updated or deleted
+        enumerable: false, // Show during enumeration
+        writable: false,
+      },
+      age: {
+        value: 23,
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      }
+    });
+    console.log(Object.keys(john)); // Only enumerable properties will show
+    console.log(john);  // Only enumerable properties will show
+    console.log(john.name);
+    console.log(john.age);
+  include /components/run.pug
+
+  p.mt-5 Reassigning non writable property
+  pre(contenteditable="true"): code.javascript.
+    const john = {};
+    Object.defineProperties(john, {
+      name: {
+        value: 'John Doe',
+        configurable: false, // False if it can't be updated or deleted
+        enumerable: false, // Show during enumeration
+        writable: false,
+      },
+      age: {
+        value: 23,
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      }
+    });
+    john.name = 'Jane Doe';
+    console.log(john.name);
+  include /components/run.pug
+
+  p.mt-5 Reassigning non writable property in strict mode
+  pre(contenteditable="true"): code.javascript.
+    'use strict';
+    const john = {};
+    Object.defineProperties(john, {
+      name: {
+        value: 'John Doe',
+        configurable: false, // False if it can't be updated or deleted
+        enumerable: false, // Show during enumeration
+        writable: false,
+      },
+      age: {
+        value: 23,
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      }
+    });
+    john.name = 'Jane Doe';
+    console.log(john.name);
+  include /components/run.pug
+
+  p.mt-5 Deleting non writable property in strict mode
+  pre(contenteditable="true"): code.javascript.
+    'use strict';
+    const john = {};
+    Object.defineProperties(john, {
+      name: {
+        value: 'John Doe',
+        configurable: false, // Allow changing configurable, enumerable and writable option
+        enumerable: false, // Show during enumeration
+        writable: false,
+      },
+      age: {
+        value: 23,
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      }
+    });
+    delete john.name;
+    console.log(john.name);
+  include /components/run.pug
+
+  p.mt-5 getOwnPropertyDescriptor - Returns detail about configuration of property
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+      age: 23
+    };
+    Object.defineProperty(john, 'name',{
+      value: 'John Doe',
+      configurable: true,
+      enumerable: true,
+      writable: false,
+    });
+    console.log(Object.getOwnPropertyDescriptor(john, 'name'));
+    console.log(Object.getOwnPropertyDescriptors(john));
+  include /components/run.pug
+
+  h3.mt-5 Entries - Return an array of key value pair array
+  p Deleting non writable property in strict mode
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+      name: 'John Doe',
+      age: 23
+    };
+    console.log(Object.entries(john));
+  include /components/run.pug
+
+  h3.mt-5 Freeze - Prevent changes
+  p Prevents changing, update or deleting object properties 
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+      name: 'John Doe',
+      age: 23
+    };
+    Object.freeze(john);
+    john.name = 'Jane Doe';
+    john.age = 22;
+    delete john.name;
+    console.log(john);
+  include /components/run.pug
+
+  p.mt-5 Throws error in strict mode
+  pre(contenteditable="true"): code.javascript.
+    'use strict';
+    const john = {
+      name: 'John Doe',
+      age: 23
+    };
+    Object.freeze(john);
+    john.name = 'Jane Doe';
+    john.age = 22;
+    delete john.name;
+    console.log(john);
+  include /components/run.pug
+
+  p.mt-5 fromEntries - Create an object from some other data type
+  pre(contenteditable="true"): code.javascript.
+    const userAsArray = [['name', 'Jane'], ['age', 23]];
+    const user = Object.fromEntries(userAsArray);
+    console.log(user);
+  include /components/run.pug
+
+  p.mt-5 Create object from map, map are key value pair and remembers orders of item insertion, key doesn't have to be string
+  pre(contenteditable="true"): code.javascript.
+    const userMap = new Map();
+    userMap.set('name', 'John Doe');
+    userMap.set('age', 32);
+    const user = Object.fromEntries(userMap);
+    console.log(user);
+  include /components/run.pug
+
+  p.mt-5 getPrototypeOf - Get prototype class/function name(Remember OOP?)
+  pre(contenteditable="true"): code.javascript.
+    const User = {
+      fullName() {
+        return `${this.firstName} ${this.lastName}`;
+      }
+    };
+    
+    const john = Object.create(User);
+    john.firstName = 'John';
+    john.lastName = 'Doe';
+    console.log(john);
+    console.log(Object.getPrototypeOf(john) === User);
+  include /components/run.pug

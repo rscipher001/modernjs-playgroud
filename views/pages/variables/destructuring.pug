@@ -1,0 +1,107 @@
+extends /layout.pug
+block content
+  h3.mt-2 Object destrucuring syntax
+  p Traditional syntax
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+      name: 'John Doe',
+      age: 23
+    };
+    const name = person.name;
+    const age = person.age;
+    console.log(name, age);
+  include /components/run.pug
+
+  p.mt-4 Modern syntax
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+      name: 'John Doe',
+      age: 23
+    };
+    const { name, age } = person;
+    console.log(name, age);
+  include /components/run.pug
+
+  p.mt-4 Skip fields you don't need
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+      name: 'John Doe',
+      age: 23,
+      email: 'john@example.com'
+    };
+    const { name, age, country } = person;
+    console.log(name, age, country);
+  include /components/run.pug
+
+  p.mt-4 Default values are supported
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+      name: 'John Doe',
+      age: 23
+    };
+    const { name, age, country = "India" } = person;
+    console.log(name, age, country);
+  include /components/run.pug
+
+  p.mt-4 Using rest operator
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+      name: 'John Doe',
+      age: 23,
+      email: 'john@example.com',
+      gender: 'Male'
+    };
+    const { name, age, ...rest } = person;
+    console.log(name, age, rest);
+  include /components/run.pug
+
+  p.mt-4 Declaration and assignment on different lines
+  pre(contenteditable="true"): code.javascript.
+    let name, age;
+    const person = {
+      name: 'John Doe',
+      age: 23
+    };
+    ({ name, age } = person);
+    console.log(name, age);
+  include /components/run.pug
+
+  p.mt-4 Declaration and assignment on different lines with rest
+  pre(contenteditable="true"): code.javascript.
+    let name, age; // declare
+    const person = {
+      name: 'John Doe',
+      age: 23,
+      email: 'john@example.com',
+      language: ['English', 'Spanish']
+    };
+    ({ name, age, ...rest } = person); // define/assign
+    console.log(name, age, rest);
+  include /components/run.pug
+
+  p.mt-4 Changing variable name
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+      name: 'John Doe',
+      age: 23
+    };
+    const {name: fullName, age: fullAge } = person;
+    console.log(fullName, fullAge);
+  include /components/run.pug
+
+  p.mt-4 Nested objects
+  pre(contenteditable="true"): code.javascript.
+    const req = {
+      body: {
+        person: {
+          name: 'John Doe',
+          age: 23
+        } 
+      },
+      params: {
+        token: 'Iamtoken'
+      }
+    };
+    const { body: { person: { name: fullName, age } }, params: { token } } = req;
+    console.log(fullName, age, token);
+  include /components/run.pug

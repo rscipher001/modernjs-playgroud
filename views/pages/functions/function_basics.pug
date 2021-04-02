@@ -1,0 +1,145 @@
+extends /layout.pug
+block content
+  h3 Functions are also variables
+  pre(contenteditable="true"): code.javascript.
+    function hello() {
+        console.log('Hello');
+    }
+    hello();
+  include /components/run.pug
+
+  hr
+  pre(contenteditable="true"): code.javascript.
+    const hello = function() {
+        console.log('Hello');
+    }
+    hello();
+  include /components/run.pug
+
+  h3.mt-5 Ways to create a function
+  pre(contenteditable="true"): code.javascript.
+    function x() {
+      console.log('Hello, World');
+    }
+    const y = function() {
+      console.log('Hello, World');
+    }
+    const z = new Function("console.log('Hello, World')");
+    x();
+    y();
+    z();
+    console.log('Typeof x:', typeof x);
+    console.log('Typeof y:', typeof y);
+    console.log('Typeof z:', typeof z);
+  include /components/run.pug
+
+  h3.mt-5 Functions can be used as property of an object
+  pre(contenteditable="true"): code.javascript.
+    const greettings = {
+        hello: function(name) {
+            console.log("Hello", name);
+        },
+        hi: function(name) {
+            console.log("Hi", name);
+        }
+    }
+    greettings.hello('Jane');
+    greettings.hi('Jane');
+  include /components/run.pug
+
+  h3.mt-5 Overriding with another value
+  pre(contenteditable="true"): code.javascript.
+    function hello() {
+      console.log('Hello, World');
+    }
+    hello = 5;
+    hello(); // will throw an exception here
+  include /components/run.pug
+  hr
+  pre(contenteditable="true"): code.javascript.
+    const log = console.log; // Pay attention, there is no () for calling it
+    log('Zeroth', 'First','Second','Third','Fourth');
+  include /components/run.pug
+
+  h3.mt-5 Functions assignment does not uses references
+  pre(contenteditable="true"): code.javascript.
+    function hello() {
+      console.log('Hello, World');
+    }
+    greet = hello; // Alias a function
+    hello = 5;
+    greet(); // works
+    hello(); // will throw an exception here
+  include /components/run.pug
+
+  h3.mt-5 Special variable arguments
+  p Allows Access all arguments as an numeric keyed object
+  pre(contenteditable="true"): code.javascript.
+    function log() {
+      console.log(arguments); // arguments is a special variable, you'll see
+    }
+    log('Zeroth', 'First', 'Second', 'Third', 'Fourth');
+  include /components/run.pug
+
+  h3.mt-5 Functions can return another function and call can be chained
+  pre(contenteditable="true"): code.javascript.
+    function hof() { // Higher order function
+      return function nf() { // Nested function
+        return console.log;
+      }
+    }
+    hof()()('Wow');
+    // ()(req, res, next) This syntax is common in express
+  include /components/run.pug
+
+  h3.mt-5 Callback function
+  p Used in async operations
+  pre(contenteditable="true"): code.javascript.
+    const fs = require('fs');
+    fs.readFile('index.js', 'utf-8', function (err, result) {
+      if (err) {
+        return console.log('Something went wrong:', err); // Or throw an exception
+      }
+      console.log(result); // Or do whatever you want to do
+    })
+    console.log('After callback'); // Executes before callback function
+  include /components/run.pug
+
+  hr
+  pre(contenteditable="true"): code.javascript.
+    function handleResult(err, result) {
+      if (err) {
+        return console.log('Something went wrong:', err); // Or throw an exception
+      }
+      console.log(result); // Or do whatever you want to do
+    }
+    const fs = require('fs');
+    fs.readFile('index.js', 'utf-8', handleResult);
+    console.log('After callback'); // Executes before callback function
+  include /components/run.pug
+
+
+  h3.mt-5 Callback hell
+  p Nested callback functions (Replaced with <code>Promise</code>)
+  pre(contenteditable="true"): code.javascript.
+    const fs = require('fs');
+    fs.readFile('index.js', 'utf-8', function (err, result) {
+      if (err) {
+        return console.log('Something went wrong:', err);
+      }
+      console.log(result);
+      fs.readFile('package.json', 'utf-8', function (err, result) {
+        if (err) {
+          return console.log('Something went wrong:', err);
+        }
+        console.log(result);
+        fs.readFile('.gitignore', 'utf-8', function (err, result) {
+          if (err) {
+            return console.log('Something went wrong:', err);
+          }
+          console.log(result);
+        })
+      })
+    })
+    console.log('After callback'); // Executes before callback function
+  include /components/run.pug

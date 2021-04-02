@@ -1,0 +1,227 @@
+extends /layout.pug
+block content
+  h3.mt-2 Shallow copy an object
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+      name: 'John Doe',
+      age: 23,
+      email: 'john@example.com',
+      language: ['English', 'Spanish']
+    };
+    const {...clonedPerson } = person;
+    console.log(clonedPerson);
+     const person2 = person;
+    console.log(person === person2);
+    console.log(clonedPerson === person2);
+  include /components/run.pug
+
+  p.mt-4 Picking specific indexes
+  p When variable name is stored in another variables 
+  pre(contenteditable="true"): code.javascript.
+    const key = 'age';
+    const person = {
+      name: 'John Doe',
+      age: 23
+    };
+    console.log(person[key]);
+    const { [key]: result } = person;
+    console.log(result);  
+  include /components/run.pug
+
+  //- p.mt-4 What is Shallow copy?
+  //- pre(contenteditable="true"): code.javascript.
+  //-   const person = {
+  //-     name: 'John Doe',
+  //-     age: 23,
+  //-     email: 'john@example.com',
+  //-     languages: ['English', 'Spanish']
+  //-   };
+  //-   const {...clonedPerson } = person;
+  //-   console.log(clonedPerson);
+  //-   const person2 = person;
+  //-   console.log(person.languages === person2.languages);
+  //-   console.log(clonedPerson.languages === person2.languages);
+  //-   console.log(['English', 'Spanish'] === ['English', 'Spanish']);
+  //- include /components/run.pug
+
+  h3.mt-5 Array destrucuring syntax
+  p Traditional syntax
+  pre(contenteditable="true"): code.javascript.
+    const squares = [1, 4, 9, 16, 25];
+    const one = squares[0];
+    const two = squares[1];
+    const three = squares[2];
+    const four = squares[3];
+    const five = squares[4];
+    console.log(one, two, three, four, five);
+  include /components/run.pug
+
+  p.mt-4 New syntax
+  pre(contenteditable="true"): code.javascript.
+    const squares = [1, 4, 9, 16, 25];
+    const [ one, two, three, four, five ] = squares;
+    console.log(one, two, three, four, five);
+  include /components/run.pug
+
+  p.mt-4 Pick some fields from start
+  pre(contenteditable="true"): code.javascript.
+    const squares = [1, 4, 9, 16, 25];
+    const [ one, two, three ] = squares;
+    console.log(one, two, three);
+  include /components/run.pug
+
+  p.mt-4 Use rest operator
+  pre(contenteditable="true"): code.javascript.
+    const squares = [1, 4, 9, 16, 25];
+    const [ one, two, three, ...rest ] = squares;
+    // rest is always last parameter
+    console.log(one, two, three, rest);    
+  include /components/run.pug
+
+  p.mt-4 Swapping variables
+  pre(contenteditable="true"): code.javascript.
+    const squares = [1, 4, 9, 16, 25];
+    let [ three, two, one ] = squares;
+    [ three, two, one ] = [ one, two, three];
+    console.log(one, two, three);    
+  include /components/run.pug
+
+  p.mt-4 Picking specific indexes
+  pre(contenteditable="true"): code.javascript.
+    const squares = [1, 4, 9, 16, 25];
+    const [ ,,three,four ] = squares;
+    console.log(three, four);    
+  include /components/run.pug
+
+  p.mt-4 Array, object and nesting
+  pre(contenteditable="true"): code.javascript.
+    const squares = {
+      name: 'John Doe',
+      email: 'john@example.com',
+      languages: [{
+        name: 'English',
+        score: 23
+      }, {
+        name: 'Hindi',
+        score: 90
+      }],
+      country: 'France' // What do you mean by he should speak french?
+    };
+    // I want second language and email
+    const { email, languages: [, { name: language }]} = squares;
+    console.log(language, email);    
+  include /components/run.pug
+
+  h3.mt-2 Assignment uses reference by default
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+        name: 'John Doe',
+        email: 'john@example.com'
+    };
+    const johnClone = john;
+
+    // Logs true if both variables are same
+    console.log(johnClone === john);
+
+    john.age = 23;
+    console.log(johnClone.age, john.age);
+  include /components/run.pug
+
+  h3.mt-5 Assignment but with shallow copy
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+        name: 'John Doe',
+        email: 'john@example.com'
+    };
+    const {...johnClone} = john;
+
+    console.log({ john });
+    console.log({ johnClone });
+
+    // Logs true if both variables are same
+    console.log('Both are same:', johnClone === john);
+
+    john.age = 23;
+    console.log(johnClone.age, john.age);
+  include /components/run.pug
+
+  h3.mt-5 What is shallow copy then?
+  p Let's say primitive data types can not be broken further
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+        name: 'John Doe', // String
+        email: 'john@example.com', // String
+        languages: ['English', 'Hindi'] // Array
+    };
+    const {...johnClone} = john;
+
+    // Logs true if both variables are same
+    console.log('Both are same:', johnClone === john);
+
+    // Languages are same in both
+    console.log('Languages array still same:', johnClone.languages === john.languages);
+
+    // Add one more language
+    johnClone.languages.push('Spanish');
+    console.log('John\'s languages:', john.languages);
+    console.log('Clone\'s languages:', johnClone.languages);
+  include /components/run.pug
+
+  h3.mt-5 Functions in shallow copy?
+  p Works
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+      firstName: 'John',
+      lastName: 'Doe',
+      fullName: function() {
+        return this.firstName + " " + this.lastName;
+      }
+    };
+    const { ...clone } = john;
+    console.log('John:', john.fullName());
+    console.log('Clone:', clone.fullName());
+  include /components/run.pug
+
+  h3.mt-5 Deep copy?
+  p Copies everything.
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+      name: 'John Doe',
+      email: 'john@example.com',
+      languages: ['English', 'Hindi']
+    };
+    const clone = JSON.parse(
+      JSON.stringify(john)
+    );
+
+    // Logs true if both variables are same
+    console.log('Both are same:', clone === john);
+
+    // Languages are same in both
+    console.log('Languages array still same:', clone.languages === john.languages);
+
+    // Add one more language
+    clone.languages.push('Spanish');
+    console.log('John\'s languages:', john.languages);
+    console.log('Clone\'s languages:', clone.languages);
+  include /components/run.pug
+
+  h3.mt-5 Deep copy and serialization
+  p Copies everything except seriazable fields
+  pre(contenteditable="true"): code.javascript.
+    const john = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+      languages: ['English', 'Hindi'],
+      fullName: function() {
+        return this.firstName + " " + this.lastName
+      }
+    };
+    console.log('Full name:', john.fullName());
+    const clone = JSON.parse(
+      JSON.stringify(john)
+    );
+    console.log('Clone Full name:', clone.fullName());
+  include /components/run.pug
+

@@ -1,0 +1,176 @@
+extends /layout.pug
+block content
+  h3 Classes are internally functions
+  pre(contenteditable="true"): code.javascript.
+    class Person {
+      constructor (firstName, lastName) {
+        this.firstName = firstName,
+        this.lastName = lastName
+      }
+
+      fullName () {
+        return `${this.firstName} ${this.lastName}`;
+      }
+
+      get name () {
+        return `${this.firstName} ${this.lastName}`;
+      }
+    }
+    const john = new Person('John', 'Doe');
+    john.age = 23;
+    console.log(john);
+    console.log(john.fullName());
+    console.log(john.name);
+  include /components/run.pug
+
+  p.mt-5 Same operation with function
+  pre(contenteditable="true"): code.javascript.
+    function Person(firstName, lastName) {
+      return {
+        firstName,
+        lastName,
+        fullName() {
+          return `${this.firstName} ${this.lastName}`
+        }
+      }
+    }
+    const john = Person('John', 'Doe');
+    console.log(john);
+    console.log(john.fullName());
+  include /components/run.pug
+
+  p.mt-5 Better way
+  pre(contenteditable="true"): code.javascript.
+    function Person(firstName, lastName) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.fullName = function() {
+        return `${this.firstName} ${this.lastName}`
+      }
+    }
+    const john = new Person('John', 'Doe');
+    console.log(john);
+    console.log(john.fullName());
+  include /components/run.pug
+
+  h3.mt-5 Prototype?
+  pre(contenteditable="true"): code.javascript.
+    class Animal {
+      walk() {
+        console.log('Animal is walking');
+      }
+
+      speak() {
+        console.log('EEeeeeee....');
+      }
+
+      sleep() {
+        console.log('🥰💤');
+      }
+    }
+
+    class Dog extends Animal {
+      walk() {
+        console.log('Dog is walking');
+      }
+
+      speak() {
+        console.log('Bark bark go brr');
+      }
+    }
+
+    const tommy = new Dog();
+    tommy.jumps = function() {
+      console.log('Jumps');
+    }
+    tommy.jumps();
+    tommy.speak();
+    tommy.walk();
+    tommy.sleep();
+    console.log('tommy.__proto__:', tommy.__proto__);
+    console.log('tommy.__proto__.__proto__:', tommy.__proto__.__proto__);
+
+    tommy.__proto__.speak();
+    tommy.__proto__.__proto__.speak();
+  include /components/run.pug
+
+  h3.mt-5 Use/abuse prototype
+  pre(contenteditable="true"): code.javascript.
+    class Animal {
+      walk() {
+        console.log('Animal is walking');
+      }
+
+      speak() {
+        console.log('EEeeeeee....');
+      }
+
+      sleep() {
+        console.log('🥰💤');
+      }
+    }
+
+    class Dog extends Animal {
+      walk() {
+        console.log('Dog is walking');
+      }
+
+      speak() {
+        console.log('Bark bark go brr');
+      }
+    }
+    Dog.prototype.fly = function() {
+      console.log('This dog is flying');
+    }
+    const tommy = new Dog();
+    tommy.fly();
+  include /components/run.pug
+
+  p.mt-5 This one is anti pattern, don't use it
+  pre(contenteditable="true"): code.javascript.
+    //- It is allowed but don't add functionality to premitive types
+    //- It is called monkey patching and it is anti pattern
+    Number.prototype.isEven = function() {
+      return this % 2 === 0;
+    }
+    const evenNumber = 34;
+    console.log(evenNumber.isEven());
+
+    const oddNumber = 33;
+    console.log(oddNumber.isEven());
+  include /components/run.pug
+
+  h3.mt-5 Super
+  p.mt-5 Super can be used in derived class to call parent class and it is required in constructor before using this.
+  pre(contenteditable="true"): code.javascript.
+    class Human {
+      constructor() {
+        this.type = 'Human';
+      }
+
+      changeType(type) {
+        this.type = type;
+      }
+    }
+
+    class Person extends Human {
+      constructor(name, age = 23) {
+        super(); // Will throw error here
+        this.name = name;
+        this.age = age;
+      }
+
+      changeType(type) {
+        console.log('Changing type');
+        super.changeType(type);
+      }
+    }
+
+    const john = new Person('John');
+    console.log({ john });
+    john.changeType('Doge');
+    console.log({ john });
+  include /components/run.pug
+
+
+

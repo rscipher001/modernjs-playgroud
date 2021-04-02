@@ -1,0 +1,52 @@
+extends /layout.pug
+block content
+  h3.mt-2 <code>var</code> can be redeclared
+  pre(contenteditable="true"): code.javascript.
+    var x = 2;
+    var x = 3;
+  include /components/run.pug
+
+  pre.mt-4(contenteditable="true"): code.javascript.
+    let x = 2;
+    let x = 3;
+  include /components/run.pug
+
+  pre.mt-4(contenteditable="true"): code.javascript.
+    const x = 2;
+    const x = 3;
+  include /components/run.pug
+
+  h3.mt-5 <code>var</code> is not block scoped
+  pre(contenteditable="true"): code.javascript.
+    var x = 2;
+    if(true) {
+      var x = 3;
+    }
+    console.log(x);
+  include /components/run.pug
+
+  pre.mt-4(contenteditable="true"): code.javascript.
+    let x = 2;
+    if(true) {
+      let x = 3;
+    }
+    console.log(x);
+  include /components/run.pug
+
+  pre.mt-4(contenteditable="true"): code.javascript.
+    const x = 2;
+    if(true) {
+      const x = 3;
+    }
+    console.log(x);
+  include /components/run.pug
+
+  h3.mt-5 <code>var</code> is still function scoped
+  pre(contenteditable="true"): code.javascript.
+    var x = 2;
+    function randomFunction() {
+      var x = 3;
+    }
+    randomFunction();
+    console.log(x);
+  include /components/run.pug

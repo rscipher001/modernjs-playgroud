@@ -1,0 +1,55 @@
+extends /layout.pug
+block content
+  h3 Strict mode
+  p It was introduced to enforce correct code by converting warnings into errors and prevent a lot of good practices, can be applied to script or function level
+
+  h3.mt-5 Assignment mistakes to non declared variables
+  p Prevents assignment to non declared variables
+  pre(contenteditable="true"): code.javascript.
+    var name = 'John Doe';
+    naem = 'Jane Doe';    
+  include /components/run.pug
+
+  pre.mt-5(contenteditable="true"): code.javascript.
+    'use strict'; // File or function should start with this string
+    var name = 'John Doe';
+    naem = 'Jane Doe';    
+  include /components/run.pug
+
+  h3.mt-5 Reassigning non writable keys
+  pre(contenteditable="true"): code.javascript.
+    console.log(Math.PI);    
+    Math.PI = 2;    
+    console.log(Math.PI);    
+  include /components/run.pug
+
+  pre.mt-5(contenteditable="true"): code.javascript.
+    'use strict'; // File or function should start with this string
+    console.log(Math.PI);    
+    Math.PI = 2;    
+    undefined = 2;    
+  include /components/run.pug
+
+  h3.mt-5 Deleting non writable keys
+  pre(contenteditable="true"): code.javascript.
+    delete Math.PI;    
+  include /components/run.pug
+
+  pre.mt-5(contenteditable="true"): code.javascript.
+    'use strict';
+    delete Math.PI;    
+  include /components/run.pug
+
+  h3.mt-5 Only apply to specific function
+  pre(contenteditable="true"): code.javascript.
+    function callMe() {
+      'use strict';
+      delete Math.PI;
+    }    
+    delete Math.PI;
+    console.log('Outside delete expression evaluted successfully');
+    callMe();
+
+  include /components/run.pug
+  
+  p.mt-4 More at <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode</a>

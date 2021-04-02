@@ -1,0 +1,35 @@
+doctype html
+head
+  include head.pug
+body.bg-light.text-dark(spellcheck="false")
+  include nav.pug
+  .container-fluid: .row
+    .col-6.mb-4.mt-1#instruction-area: block content
+    .col-6.bg-dark#output-area: pre.sticky-top: output#output.fw-bold
+
+  script.
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    function run() {
+      const code = event.target.previousSibling.textContent;
+      axios
+        .post("/play", { code })
+        .then((res) => {
+          Toast.fire({
+            icon: res.data.error ? "error" : "success",
+            title: res.data.error ? "There are errors" : "Ran succssfully",
+          });
+          const stdout = res.data.stdout ? `<span style='color: #81C784'>${res.data.stdout}</span>` : '';
+          const stderr = res.data.stderr ? `<span style='color: #E57373'>${res.data.stderr}</span>` : '';
+          document.querySelector("#output").innerHTML = stdout + stderr;
+        });
+    }

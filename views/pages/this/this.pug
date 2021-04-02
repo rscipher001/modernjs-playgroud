@@ -1,0 +1,149 @@
+extends /layout.pug
+block content
+  h3 What is this?
+  p In most languages it is refers to the object whose method is being called and it is also true in JS but there is more
+
+  h3 <code>this</code> keyword is complicated, let's start with simple use cases
+  pre(contenteditable="true"): code.javascript.
+    const person = {
+        name: 'John Doe',
+        age: 23,
+        introduce() {
+            return `${this.name} is ${this.age} years old`;
+        },
+        introduce2: function() {
+            return `${this.name} is ${this.age} years old`;
+        },
+        // Won't works
+        introduceArrow: () => `${this.name} is ${this.age} years old`,
+    }
+    console.log(person.introduce());
+    console.log(person.introduce2());
+    console.log(person.introduceArrow()); // Refers parent's lexical scope
+  include /components/run.pug
+
+  h3.mt-5 <code>this</code> keyword is arrow function?
+  p this keyword refers to lexical scope, let's use a promise to understand this
+  pre(contenteditable="true"): code.javascript.
+    const axios = require('axios');
+    const app = {
+      users: [],
+      loadUsers: function() {
+        console.log(this.users);
+      }
+    }
+    app.loadUsers();
+  include /components/run.pug
+
+  pre.mt-5(contenteditable="true"): code.javascript.
+    const app = {
+      data: {
+        users: [],
+        loadUsers: function() {
+          console.log(this.users);
+          // console.log(this.data.users);
+        },
+        loadUsersArrow: () => {
+          console.log(this.data.users); // TypeError 
+        }
+      }
+    }
+    app.data.loadUsers();
+    app.data.loadUsersArrow();
+  include /components/run.pug
+
+  pre.mt-5(contenteditable="true"): code.javascript.
+    const axios = require('axios');
+    const app = {
+      users: [],
+      loadUsers: function() {
+        axios.get('https://jsonplaceholder.typicode.com/users')
+          .then(function(response) {
+            console.log(this.users);
+            console.log(response.data);
+          })
+      }
+    }
+    app.loadUsers();
+  include /components/run.pug
+
+  p.mt-5 Use temp variable for parent scope
+  pre(contenteditable="true"): code.javascript.
+    const axios = require('axios');
+    const app =  {
+      users: [],
+      loadUsers: function() {
+        const that = this;
+        axios.get('https://jsonplaceholder.typicode.com/users')
+          .then(function(response) {
+            console.log('this.users:', this.users);
+            console.log('that.users:', that.users);
+            console.log(response.data);
+          })
+      }
+    }
+    app.loadUsers();
+  include /components/run.pug
+
+  p.mt-5 Using arrow function
+  pre(contenteditable="true"): code.javascript.
+    const axios = require('axios');
+    const app =  {
+      users: [],
+      loadUsers: function() {
+        axios.get('https://jsonplaceholder.typicode.com/users')
+          .then((response) => {
+            console.log('this.users:', this.users);
+            console.log(response.data);
+          })
+      }
+    }
+    app.loadUsers();
+  include /components/run.pug
+
+
+  h3.mt-5 Manually control this for functions
+  p.mt-5 You can manually bind this for functions
+  pre(contenteditable="true"): code.javascript.
+    const firstName = 'Jane';
+    const fullName = function() {
+      console.log(`${this.firstName} ${this.lastName}`);
+    };
+    const fullNameArrow = () => {
+      console.log(`${this.firstName} ${this.lastName}`);
+    };
+    const john = {
+      firstName: 'John',
+      lastName: 'Doe'
+    };
+
+    fullName(); // No binding of this
+    fullName.call(john);
+    fullName.apply(john);
+    fullName.bind(john)();
+
+    fullNameArrow(); // No binding of this
+    fullNameArrow.call(john);
+    fullNameArrow.apply(john);
+    fullNameArrow.bind(john)();
+  include /components/run.pug
+
+  h3.mt-5 Global this
+  pre(contenteditable="true"): code.javascript.
+    function getThis() {
+      return this;
+    }
+    console.log(getThis() == global);
+    console.log(getThis() == globalThis);
+  include /components/run.pug
+
+  p.mt-5 Strict mode
+  pre(contenteditable="true"): code.javascript.
+    'use strict';
+    function getThis() {
+      return this;
+    }
+    console.log(getThis() == global);
+    console.log(getThis() == globalThis);
+    console.log(getThis());
+  include /components/run.pug

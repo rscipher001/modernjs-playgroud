@@ -1,0 +1,390 @@
+extends /layout.pug
+block content
+  h3.mt-5 ES6 Array methods
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      'John',
+      'Jane',
+      'Sally'
+    ];
+    
+    //- Loop using forEach and arrow function
+    users.map(user => console.log(user));
+
+    //- Loop with index
+    users.map((user, index) => console.log(`${index + 1}.`, user));
+  include /components/run.pug
+
+  h3.mt-5 Add new item in last
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      'John',
+      'Jane'
+    ];
+
+    //- Insert item in the last
+    const length = users.push('Sally');
+    console.log(users, length);
+  include /components/run.pug
+
+  h3.mt-5 Add new item in first
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      'Jane',
+      'Sally'
+    ];
+
+    const length = users.unshift('John');
+    console.log(users, length);
+  include /components/run.pug
+  
+  h3.mt-5 Remove last item
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      'John',
+      'Jane',
+      'Sally'
+    ];
+
+    //- remove last item
+    const removedUser = users.pop();
+    console.log(users, removedUser);
+  include /components/run.pug
+
+  h3.mt-5 Remove first item
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      'John',
+      'Jane',
+      'Sally'
+    ];
+
+    //- remove last item
+    const removedUser = users.shift();
+    console.log(users, removedUser);
+  include /components/run.pug
+
+  h3.mt-5 Find item's index by value
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      'John',
+      'Jane',
+      'Sally'
+    ];
+ 
+    const user = users.findIndex(user => user === 'Sally');
+    //- const user = users.findIndex(user => {
+    //-   return user === 'john';
+    //- });
+    console.log(user);
+
+    //- indexOf works with strings and array of premitives
+    const index = users.indexOf('Sally');
+    console.log(index);
+  include /components/run.pug
+
+  h3.mt-5 Find item by value
+  p Let's start using object
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 }
+    ];
+ 
+    const userIndex = users.findIndex(user => user.name === 'Sally');
+    const user = users.find(user => user.name === 'Sally');
+    console.log(userIndex, user);
+  include /components/run.pug
+
+  h3.mt-5 Remove item from array
+  p Removing item requires index
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 }
+    ];
+ 
+    //- Find index
+    const userIndex = users.findIndex(user => user.name === 'Jane');
+    //- First parameter is index, second parameter is number of items to remove
+    const splicedItem = users.splice(userIndex, 1); 
+    console.log(users);
+    console.log(splicedItem);
+  include /components/run.pug
+
+  h3.mt-5 More usage of splice method
+  p Can remove/replace item(s) in array
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 },
+      { name:'Ashok', age: 24 },
+      { name:'William', age: 19 },
+      { name:'Tom', age: 48 },
+    ];
+
+    //- Remove everything after 3rd item
+    //- Index of third item is 2 since index starts from 0
+    const splicedUsers = users.splice(3);
+    console.log('users:', users);
+    console.log('splicedUsers:', splicedUsers);
+  include /components/run.pug
+
+  pre.mt-5(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 },
+      { name:'Ashok', age: 24 },
+      { name:'William', age: 19 },
+      { name:'Tom', age: 48 },
+    ];
+
+    //- Remove 2 items after 3rd item
+    //- Index of third item is 2 since index starts from 0
+    const removeCount = 2;
+    const splicedUsers = users.splice(3, removeCount);
+    console.log('users:', users);
+    console.log('splicedUsers:', splicedUsers);
+  include /components/run.pug
+
+  p.mt-5 Replace item in array
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 },
+      { name:'Ashok', age: 24 },
+      { name:'William', age: 19 },
+      { name:'Tom', age: 48 },
+    ];
+
+    //- Replace item
+    const userToInsert = {
+      name: 'John Biden',
+      age: '68',
+    };
+    //- Let's replace Sally (index 2);
+    const splicedUsers = users.splice(2, 1, userToInsert);
+    console.log('users:', users);
+    console.log('splicedUsers:', splicedUsers);
+  include /components/run.pug
+  
+  p.mt-5 Find and replace in oneline
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 },
+      { name:'Ashok', age: 24 },
+      { name:'William', age: 19 },
+      { name:'Tom', age: 48 },
+    ];
+
+    const splicedUsers = users.splice(
+      users.findIndex(u => u.name === 'Sally'),
+      1,
+      {
+        name: 'James Doe',
+        age: 27
+      }
+    );
+    console.log('users:', users);
+    console.log('splicedUsers:', splicedUsers);
+  include /components/run.pug
+
+  h3.mt-5 Filter
+  p Like find method but returns array
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 },
+      { name:'Ashok', age: 24 },
+      { name:'William', age: 19 },
+      { name:'Tom', age: 48 },
+    ];
+
+    const over20Years = users.filter(u => u.age > 20);
+    console.log({ over20Years });
+  include /components/run.pug
+
+  h3.mt-5 Some not very commonly used methods.
+  p Concat - Merge arrays
+  pre(contenteditable="true"): code.javascript.
+    const user1 = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+    ];
+    const users2 =  [
+      { name:'Sally', age: 21 },
+      { name:'Ashok', age: 24 },
+    ];
+    const users3 = [
+      { name:'William', age: 19 },
+      { name:'Tom', age: 48 },
+    ];
+    const users = user1.concat(users2, users3);
+    console.log({ users });
+  include /components/run.pug
+
+  p.mt-5 Every - Check every item in array for a condition
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 23 },
+      { name:'Jane', age: 22 },
+      { name:'Sally', age: 21 },
+      { name:'Ashok', age: 24 },
+      { name:'William', age: 19 },
+      { name:'Tom', age: 48 },
+    ];
+
+    console.log(users.every(u => u.age > 18));
+    //- console.log(users.every(({ age }) => age > 18));
+
+    //- const over18 = ({ age }) => age > 18;
+    //- console.log(users.every(over18));
+
+  include /components/run.pug
+  p.mt-5 Flat - Merge nested arrays into main array
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [
+      1, 2 , 3, [ 4, 5, [ 6, 7, [ 8, [ 9, 10 ]]]]
+    ];
+    //- Takes depth as parameter, default is 1
+    console.log(numbers.flat());
+    console.log(numbers.flat(4));
+
+  include /components/run.pug
+  p.mt-5 ForEach - Perform some operation
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [
+      1,2,1,2,5,3,4,677,4,33,5,788,
+    ];
+    numbers.forEach(n => console.log(n));
+  include /components/run.pug
+
+  p.mt-5 From - Create array from other data type
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [
+      1,2,1,2,5,3,4,677,4,33,5,788,
+    ];
+    const numberSet = new Set(numbers);
+    const uniqueNumbers = Array.from(numberSet);
+    console.log(uniqueNumbers);
+    //- console.log(Array.from(new Set(numbers)));
+  include /components/run.pug
+
+  p.mt-5 Includes - Check if array contains some value
+  pre(contenteditable="true"): code.javascript.
+    const role = 'admin';
+    const allowedRoles = [
+      'owner', 'admin', 'superAdmin'
+    ];
+    if (role === 'owner' || role === 'admin' || role === 'superAdmin') {
+      console.log('Access granted');
+    }
+    if (allowedRoles.includes(role)) {
+      console.log('Access granted');
+    }
+  include /components/run.pug
+
+  p.mt-5 isArray - Check if data type is array
+  pre(contenteditable="true"): code.javascript.
+    const tags = ['t1', 't2'];
+
+    if (Array.isArray(tags)) {
+      console.log('Saving tags in db');
+    }
+  include /components/run.pug
+
+  p.mt-5 join - Convert array to string
+  pre(contenteditable="true"): code.javascript.
+    const userIds = [1,2,3,4,5];
+    console.log(userIds.join(', '));
+  include /components/run.pug
+
+  p.mt-5 map - Returns new transformed array
+  pre(contenteditable="true"): code.javascript.
+    const users = [{ name: 'John', id: 1 }, { name: 'Jane', id: 2 }];
+    console.log(users.map(u => u.id));
+  include /components/run.pug
+
+  p.mt-5 reduce - Returns one value after reducing array, people find it hard to use
+  | Let's break it down in simple steps
+  | Reduce method takes two parameter
+  | First parameter is a function which takes two parameters (existingValues, newValue)
+  | Second parameter is optional default value
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [23, 24, 43, 36, 65, 17];
+
+    //- Let's create a reducer first
+    const sum = (acc, currentValue) => acc + currentValue
+    console.log(numbers.reduce(sum));
+  include /components/run.pug
+
+  p.mt-5 Introduce default value in reduce
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [23, 24, 43, 36, 65, 17];
+
+    //- Let's create a reducer first
+    const sum = (acc, currentValue) => acc + currentValue
+    console.log(numbers.reduce(sum, 2));
+    console.log(numbers.reduceRight(sum, 2));
+  include /components/run.pug
+
+  p.mt-5 Slice - Get part of an array
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [20, 21, 22, 23, 24, 24];
+
+    //- Get all items from index 2
+    const firstSlice = numbers.slice(2);
+    console.log({ firstSlice });
+  include /components/run.pug
+
+  p.mt-5 Slice - Get a range
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [20, 21, 22, 23, 24, 24];
+
+    //- Get all items from index 2
+    const firstSlice = numbers.slice(2, 4);
+    console.log({ firstSlice });
+  include /components/run.pug
+
+  p.mt-5 Some - Just like every but all items doesn't have to pass
+  pre(contenteditable="true"): code.javascript.
+    const users = [
+      { name:'John', age: 18 },
+      { name:'Jane', age: 18 },
+      { name:'Sally', age: 17 },
+    ];
+
+    console.log(users.some(({ age }) => age >= 18));
+  include /components/run.pug
+
+  p.mt-5 Sort - Sort array
+  pre(contenteditable="true"): code.javascript.
+    const numbers = [51, 32, 41, 11, 10, 2, 5, 3];
+    const users = [
+      { name:'John', age: 18 },
+      { name:'Jane', age: 18 },
+      { name:'Sally', age: 17 },
+    ];
+
+    const sortLogic = (a, b) => {
+      if (parseFloat(a) > parseFloat(b)) {
+        return 1;
+      }
+      if (parseFloat(a) < parseFloat(b)) {
+        return -1;
+      }
+      return 0;
+    }
+
+    console.log(numbers.sort()); // Unexpected?
+    console.log(numbers.sort(sortLogic));
+    
+  include /components/run.pug
