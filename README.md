@@ -1,7 +1,7 @@
-### Assignment
-- Shallow copy
-- Deep copy
+## How to run locally?
 
-### Bulit in objects
-JSON
-Object
+Run these commands to start the server locally on port 3000
+```bash
+npm ci # Install dependencies
+node .
+```
